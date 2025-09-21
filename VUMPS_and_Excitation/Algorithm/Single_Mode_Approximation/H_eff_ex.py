@@ -243,7 +243,6 @@ class Excited_OnesiteH(EffectiveH):
     def Exi_Eng(self, B):
         pass
 
-
 class Excited_MultisiteH(Excited_OnesiteH):
     # We choose the charge gauge that qtotal is on the 0th tensor
     def __init__(self, env, psi_GS, H, k, X_list, eigen_shift=0, group_sites=False, ex_charge=None):
