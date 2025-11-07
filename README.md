@@ -2,7 +2,7 @@
 
 This repository contains the source code accompanying the paper:
 
-**"Title of the Paper" (arXiv:XXXX.XXXXX)**
+**"Chiral Edge Excitations of Fractional Chern Insulators" (arXiv:2510.07795)**
 
 ## Dependencies
 
