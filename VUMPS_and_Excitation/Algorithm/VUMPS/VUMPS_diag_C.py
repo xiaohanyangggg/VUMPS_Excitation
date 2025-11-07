@@ -157,12 +157,12 @@ def Calc_En_Variance(H, psi, Env):
     A_2CP_c = A_2CP.conj()
     return npc.tensordot(A_2CP, A_2CP_c, axes=[['vr*', 'vl*'], ['vr', 'vl']])
 
-def run_parallel_uMPS(H, psi, N_2Site=10, method='polar', tol=1e-12, max_iter_num=300, checkpoint_num=500, Krylov_Para={'E_tol':1.e-13, 
-                                                                                                                        'P_tol': 1.e-13, 
-                                                                                                                        'reortho':True, 
-                                                                                                                        'N_min':10, 
-                                                                                                                        'N_max':5000, 
-                                                                                                                        'cutoff':1.e-13}):
+def run_parallel_uMPS(H, psi, N_2Site=10, method='polar', tol=1e-12, max_iter_num=300, checkpoint_num=500, CheckPointPath=None, Krylov_Para={   'E_tol':1.e-13, 
+                                                                                                                                                'P_tol': 1.e-13, 
+                                                                                                                                                'reortho':True, 
+                                                                                                                                                'N_min':10, 
+                                                                                                                                                'N_max':5000, 
+                                                                                                                                                'cutoff':1.e-13}):
     n_iter = 0
     Energy = []
     err_B = []
@@ -286,10 +286,7 @@ def run_parallel_uMPS(H, psi, N_2Site=10, method='polar', tol=1e-12, max_iter_nu
 
             psi.set_B(i-1, A_L, form='A')
             psi.set_B(i, A_R, form='B')
-            # print("1", psi._Bc[psi._to_valid_index(i-1)])
-            # print(npc.tensordot(A_L, psi._C[i], axes=('vR', 'vL'))) 
-            # ========================================================
-        # Env.clear()
+
         # Update the environment for the calculation of error functions
         # and for the next loop of variational update
         old_env_data = Env.get_initialization_data()
@@ -341,8 +338,8 @@ def run_parallel_uMPS(H, psi, N_2Site=10, method='polar', tol=1e-12, max_iter_nu
         # mag.append(psi.expectation_value('N'))
         Ac = psi._Bc
         C = psi._C # No need to return
-        # print("\n")
-        if n_iter % checkpoint_num == 0:
+
+        if n_iter % checkpoint_num == 0 and (CheckPointPath is not None):
             Bond_Dim = Ac[0].get_leg("vL").ind_len
             checkpoint_data = { "psi": psi,
                                 "Bond_Dim" : Bond_Dim,
@@ -351,9 +348,8 @@ def run_parallel_uMPS(H, psi, N_2Site=10, method='polar', tol=1e-12, max_iter_nu
                                 "tangent_Norm": err_B,
                                 "Krylov_params": Krylov_Para
                               }
-            with gzip.open("/home/yangxh/data1/Hof_VUMPS_Excitation_data/Checkpoint/Ly_" + str(L) + "_Bond_Dim_" + str (Bond_Dim) + "VUMPS_checkpoint"+ str(n_iter) +".pklz", "wb") as checkpoint_VUMPS:
+            with gzip.open(CheckPointPath + "/Ly_" + str(L) + "_Bond_Dim_" + str (Bond_Dim) + "VUMPS_checkpoint"+ str(n_iter) +".pklz", "wb") as checkpoint_VUMPS:
                 pickle.dump(checkpoint_data, checkpoint_VUMPS)
-            checkpoint_VUMPS.close()
 
     return psi, C, Ac, Env, n_iter, Energy, err_B, delta_E, mag
 
