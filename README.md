@@ -9,6 +9,9 @@ This repository contains the source code accompanying the paper:
 This project depends on the [TenPy library](https://github.com/tenpy/tenpy) v1.0.6,
 which is licensed under the Apache License, Version 2.0.
 
+## Data available
+All the data in the main context and the supplementary material are available at [zenodo](https://doi.org/10.5281/zenodo.20704429).
+
 ## Acknowledgments
 
 We thank the developers of TenPy, which provides the tensor network framework
