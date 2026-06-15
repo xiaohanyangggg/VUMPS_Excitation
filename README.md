@@ -2,7 +2,7 @@
 
 This repository contains the source code accompanying the paper:
 
-**"Chiral edge excitations of $\nu = 1/2$ fractional Chern insulators in the bosonic Hofstadter model" (DOI:https://doi.org/10.1103/kwj1-d19d)**
+**"Chiral edge excitations of $\nu = 1/2$ fractional Chern insulators in the bosonic Hofstadter model" (DOI: https://doi.org/10.1103/kwj1-d19d)**
 
 ## Dependencies
 
